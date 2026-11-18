@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify — Music for everyone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="java.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Spotify home">
+      <img src="spotify-seeklogo.png" alt="Spotify" class="brand-logo" />
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#premium">Premium</a>
+      <a href="#albums">Albums</a>
+      <a href="#artists">Artists</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-ghost" href="#signup">Sign up</a>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <img src="ChatGPT Image Jul 22, 2026, 02_45_43 PM.png" alt="" />
+      </div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+      <div class="hero-content">
+        <img
+          src="Spotify_logo_without_text.svg.webp"
+          alt=""
+          class="hero-mark"
+          aria-hidden="true"
+        />
+        <p class="hero-brand">Spotify</p>
+        <h1>Music for everyone.</h1>
+        <p class="hero-lead">
+          Millions of songs. No credit card needed.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#signup">Sign up free</a>
+          <a class="btn btn-outline" href="#albums">Browse hits</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section featured" id="premium">
+      <div class="section-head">
+        <h2>Today’s featured drop</h2>
+        <p>Fresh energy from COLORS — press play and feel it.</p>
+      </div>
+      <article class="feature-panel">
+        <img
+          src="ChatGPT Image Jul 22, 2026, 03_58_53 PM.png"
+          alt="Garee2a Awy — A COLORS SHOW by TUL8TE"
+          class="feature-art"
+        />
+        <div class="feature-copy">
+          <span class="chip">New release</span>
+          <h3>Garee2a Awy — A COLORS SHOW</h3>
+          <p>TUL8TE · COLORS</p>
+          <a class="btn btn-primary" href="#play">Play now</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section" id="albums">
+      <div class="section-head">
+        <h2>Popular albums</h2>
+        <p>Albums you’ll keep coming back to.</p>
+      </div>
+      <div class="album-grid">
+        <article class="media-card">
+          <img src="Screenshot 2026-07-22 144021.png" alt="Garee2a Awy — A COLORS SHOW by TUL8TE, COLORS" />
+        </article>
+        <article class="media-card">
+          <img src="Screenshot 2026-07-22 144049.png" alt="WILDFLOWER by Billie Eilish" />
+        </article>
+        <article class="media-card">
+          <img src="Screenshot 2026-07-22 144118.png" alt="Born To Die — The Paradise Edition by Lana Del Rey" />
+        </article>
+        <article class="media-card">
+          <img src="Screenshot 2026-07-22 155400.png" alt="WILDFLOWER by Billie Eilish" />
+        </article>
+      </div>
+    </section>
+
+    <section class="section artists" id="artists">
+      <div class="section-head">
+        <h2>Popular artists</h2>
+        <p>Follow the voices shaping your week.</p>
+      </div>
+
+      <div class="artist-row">
+
+        <article class="artist-card">
+          <img src="Screenshot 2026-07-22 153628.png" alt="Amr Diab — Artist" />
+        </article>
+
+        <article class="artist-card">
+          <img src="Screenshot 2026-07-22 153641.png" alt="Billie Eilish — Artist" />
+        </article>
+
+        <article class="artist-card">
+          <img src="Screenshot 2026-07-22 153648.png" alt="The Weeknd — Artist" />
+        </article>
+
+        <article class="artist-card">
+          <img src="Screenshot 2026-07-22 153717.png" alt="Lana Del Rey — Artist" />
+        </article>
+
+        <article class="artist-card">
+          <img src="Screenshot 2026-07-22 153818.png" alt="Jadal — Artist" />
+        </article>
+        3
+      </div>
+    </section>
+
+    <section class="section player-section" id="play">
+      <div class="section-head">
+        <h2>Now playing</h2>
+        <p>Pick up where you left off — anytime, anywhere.</p>
+      </div>
+
+      <div class="player-wrap">
+        <img
+          src="Screenshot 2026-07-22 142659.png"
+          alt="Now playing The Weeknd — Blinding The Lights"
+          class="player-ui"
+        />
+      </div>
+    </section>
+
+    <section class="section signup-section" id="signup">
+      <div class="section-head">
+        <h2>Sign up for Spotify</h2>
+        <p>Create your free account and start listening.</p>
+      </div>
+
+      <form class="form-card form-card--center" action="#signup-done" method="get">
+        <label>
+
+          Display name
+          <input type="text" name="name" required placeholder="Your name" autocomplete="nickname" />
+        </label>
+
+        <label>
+          Email
+          <input type="email" name="email" required placeholder="you@email.com" autocomplete="email" />
+        </label>
+
+        <label>
+          Password
+          <input type="password" name="password" required minlength="6" placeholder="At least 6 characters" autocomplete="new-password" />
+        </label>
+
+        <button class="btn btn-primary" type="submit">Sign up</button>
+      </form>
+      <p class="form-thanks" id="signup-done">Welcome! Your account is ready — start listening.</p>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="section-head">
+        <h2>Contact us</h2>
+        <p>Questions, feedback, or support — send us a message.</p>
+      </div>
+
+    <div class="contact-grid">
+    <aside class="contact-info">
+      <img src="Spotify_logo_without_text.svg.webp" alt="" class="contact-mark" />
+      <h3>We’re here to help</h3>
+        <ul>
+            <li><span>Email</span> support@spotify-demo.com</li>
+            <li><span>Hours</span> 24/7 listener support</li>
+            <li><span>Response</span> Usually within 1 day</li>
+        </ul>
+          <a class="btn btn-primary" href="#signup">Create account</a>
+        </aside>
+
+        <form class="form-card" action="#contact-done" method="get">
+        <label>
+        Full name
+        <input type="text" name="name" required placeholder="Your name" autocomplete="name" />
+        </label>
+
+        <label>
+          Email
+         <input type="email" name="email" required placeholder="you@email.com" autocomplete="email" />
+        </label>
+
+        <label>
+        Message
+        <textarea name="message" rows="5" required placeholder="How can we help?"></textarea>
+        </label>
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </div>
+    <p class="form-thanks" id="contact-done">Thanks! Your message was sent.</p>
+  </section>
+  </main>
+
+  <footer class="site-footer">
+   <div class="footer-brand">
+      <img src="spotify-seeklogo.png" alt="Spotify" />
+      <p>Listen without limits. Made for music lovers.</p>
+    </div>
+     <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#albums">Albums</a>
+      <a href="#artists">Artists</a>
+      <a href="#contact">Contact Us</a>
+      <a href="#signup">Sign up</a>
+    </div>
+    <p class="footer-note">© 2026 Spotify clone demo · Accent #94d07f</p>
+  </footer>
+</body>
+</html>

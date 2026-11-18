@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in — Spotify</title>
+  <link rel="stylesheet" href="php/assets/admin.css" />
+</head>
+<body>
+  <main class="page">
+    <h1>Log in</h1>
+    <p class="note">This page works in the browser without PHP or XAMPP.</p>
+    <p class="alert err" id="error" hidden></p>
+    <form class="form" id="login-form">
+      <label>Email
+        <input type="email" name="email" value="admin@spotify.test" required autocomplete="username" />
+      </label>
+      <label>Password
+        <input type="password" name="password" value="Admin@123" required autocomplete="current-password" />
+      </label>
+      <button class="btn" type="submit">Log in</button>
+      <a class="btn ghost" href="index.html">Back to website</a>
+    </form>
+    <p class="note">admin@spotify.test / Admin@123<br />editor@spotify.test / Editor@123<br />user@spotify.test / User@123</p>
+  </main>
+  <script src="js/auth.js"></script>
+  <script>
+    if (currentUser()) {
+      window.location.replace("admin.html");
+    }
+    document.getElementById("login-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var email = this.email.value.trim();
+      var password = this.password.value;
+      var error = document.getElementById("error");
+      if (!loginUser(email, password)) {
+        error.hidden = false;
+        error.textContent = "Invalid email or password.";
+        return;
+      }
+      window.location.href = "admin.html";
+    });
+  </script>
+</body>
+</html>

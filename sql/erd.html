@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERD — Spotify Clone</title>
+  <style>
+    :root {
+      --green: #94d07f;
+      --ink: #0a0a0a;
+      --card: #151515;
+      --pk: #94d07f;
+      --fk: #7ec8e3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: var(--ink);
+      color: #fff;
+      padding: 2rem;
+    }
+    h1, h2 { color: var(--green); }
+    p, li { line-height: 1.7; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .table {
+      background: var(--card);
+      border: 1px solid rgba(148, 208, 127, 0.25);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .table h3 {
+      margin: 0;
+      padding: 0.7rem 1rem;
+      background: #1c261c;
+      color: var(--green);
+      font-size: 1rem;
+    }
+    .table ul { list-style: none; margin: 0; padding: 0.6rem 1rem 1rem; }
+    .table li { font-size: 0.92rem; padding: 0.2rem 0; border-bottom: 1px solid #222; }
+    .pk { color: var(--pk); font-weight: 700; }
+    .fk { color: var(--fk); font-weight: 700; }
+    .rels {
+      background: #121212;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+    .legend span { margin-left: 1rem; }
+    pre {
+      background: #111;
+      padding: 1rem;
+      border-radius: 10px;
+      overflow: auto;
+      direction: ltr;
+      text-align: left;
+      color: #d7ffd0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>تصميم ERD — مشروع Spotify</h1>
+    <p>مخطط الكيانات والعلاقات لقاعدة بيانات منصة استماع موسيقى: مستخدمون، فنانون، ألبومات، أغاني، قوائم تشغيل، إعجابات.</p>
+    <p class="legend"><span class="pk">PK = Primary Key</span><span class="fk">FK = Foreign Key</span></p>
+
+    <div class="grid">
+      <article class="table">
+        <h3>roles</h3>
+        <ul>
+          <li><span class="pk">id PK</span></li>
+          <li>name</li>
+          <li>description</li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>users</h3>
+        <ul>
+          <li><span class="pk">id PK</span></li>
+          <li><span class="fk">role_id FK → roles</span></li>
+          <li>name, email, password</li>
+          <li>created_at</li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>artists</h3>
+        <ul>
+          <li><span class="pk">id PK</span></li>
+          <li>name, country, bio</li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>albums</h3>
+        <ul>
+          <li><span class="pk">id PK</span></li>
+          <li><span class="fk">artist_id FK → artists</span></li>
+          <li>title, release_year, cover_image</li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>tracks</h3>
+        <ul>
+          <li><span class="pk">id PK</span></li>
+          <li><span class="fk">album_id FK → albums</span></li>
+          <li>title, duration_seconds, genre</li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>playlists</h3>
+        <ul>
+          <li><span class="pk">id PK</span></li>
+          <li><span class="fk">user_id FK → users</span></li>
+          <li>name, is_public</li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>playlist_track</h3>
+        <ul>
+          <li><span class="pk">playlist_id + track_id PK</span></li>
+          <li><span class="fk">playlist_id FK</span></li>
+          <li><span class="fk">track_id FK</span></li>
+          <li>position</li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>likes</h3>
+        <ul>
+          <li><span class="pk">user_id + track_id PK</span></li>
+          <li><span class="fk">user_id FK → users</span></li>
+          <li><span class="fk">track_id FK → tracks</span></li>
+        </ul>
+      </article>
+      <article class="table">
+        <h3>contact_messages</h3>
+        <ul>
+          <li><span class="pk">id PK</span></li>
+          <li><span class="fk">user_id FK → users (nullable)</span></li>
+          <li>name, email, message</li>
+        </ul>
+      </article>
+    </div>
+
+    <section class="rels">
+      <h2>العلاقات</h2>
+      <ul>
+        <li>roles <strong>1 : N</strong> users — لكل دور عدة مستخدمين.</li>
+        <li>artists <strong>1 : N</strong> albums — الفنان يملك عدة ألبومات.</li>
+        <li>albums <strong>1 : N</strong> tracks — الألبوم يحتوي عدة أغاني.</li>
+        <li>users <strong>1 : N</strong> playlists — المستخدم ينشئ عدة قوائم.</li>
+        <li>playlists <strong>N : M</strong> tracks عبر playlist_track.</li>
+        <li>users <strong>N : M</strong> tracks عبر likes.</li>
+        <li>users <strong>1 : N</strong> contact_messages (اختياري).</li>
+      </ul>
+    </section>
+
+    <h2>Mermaid ERD</h2>
+    <pre>erDiagram
+  ROLES ||--o{ USERS : has
+  USERS ||--o{ PLAYLISTS : creates
+  USERS ||--o{ LIKES : likes
+  USERS ||--o{ CONTACT_MESSAGES : sends
+  ARTISTS ||--o{ ALBUMS : records
+  ALBUMS ||--o{ TRACKS : contains
+  PLAYLISTS ||--o{ PLAYLIST_TRACK : includes
+  TRACKS ||--o{ PLAYLIST_TRACK : listed_in
+  TRACKS ||--o{ LIKES : liked_by
+
+  ROLES { tinyint id PK; varchar name }
+  USERS { int id PK; tinyint role_id FK; varchar email }
+  ARTISTS { int id PK; varchar name }
+  ALBUMS { int id PK; int artist_id FK; varchar title }
+  TRACKS { int id PK; int album_id FK; varchar title }
+  PLAYLISTS { int id PK; int user_id FK; varchar name }
+  PLAYLIST_TRACK { int playlist_id PK_FK; int track_id PK_FK }
+  LIKES { int user_id PK_FK; int track_id PK_FK }</pre>
+  </div>
+</body>
+</html>

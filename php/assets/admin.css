@@ -1,0 +1,107 @@
+:root {
+  --green: #94d07f;
+  --ink: #0a0a0a;
+  --card: #151515;
+  --muted: #a7a7a7;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: var(--ink);
+  color: #fff;
+  min-height: 100vh;
+}
+
+a { color: var(--green); text-decoration: none; }
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 4vw;
+  background: #111;
+  border-bottom: 1px solid rgba(148, 208, 127, 0.2);
+}
+
+.brand { font-weight: 800; color: #fff; }
+
+.top nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+.who { display: flex; gap: 0.8rem; align-items: center; color: var(--muted); font-size: 0.9rem; }
+
+.page { padding: 1.5rem 4vw 3rem; max-width: 1100px; margin: 0 auto; }
+
+h1 { margin-top: 0; }
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.ok { background: var(--green); color: #0b1a0a; }
+.err { background: #ff6b6b; color: #1a0a0a; }
+
+.card, .form, table {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat { padding: 1.1rem; }
+.stat strong { display: block; font-size: 1.8rem; color: var(--green); }
+
+.form { padding: 1.25rem; display: grid; gap: 0.75rem; max-width: 480px; }
+label { display: grid; gap: 0.35rem; font-weight: 600; }
+input, select, textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #0f0f0f;
+  color: #fff;
+  font: inherit;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  background: var(--green);
+  color: #0b1a0a;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn.danger { background: #ff6b6b; color: #1a0a0a; }
+.btn.ghost { background: transparent; color: #fff; border: 1px solid #444; }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.search {
+  display: flex;
+  gap: 0.5rem;
+}
+
+table { width: 100%; border-collapse: collapse; overflow: hidden; }
+th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #222; }
+th { color: var(--green); font-size: 0.85rem; }
+.actions { display: flex; gap: 0.5rem; }
+
+.note { color: var(--muted); }

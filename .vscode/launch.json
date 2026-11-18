@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Spotify website",
+      "url": "http://127.0.0.1:8080/index.html",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Vue dashboard",
+      "url": "http://127.0.0.1:5173/",
+      "webRoot": "${workspaceFolder}/vue-dashboard"
+    }
+  ]
+}

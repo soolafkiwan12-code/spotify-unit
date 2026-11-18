@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Spotify</title>
+  <link rel="stylesheet" href="php/assets/admin.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="index.html">Spotify Admin</a>
+    <nav>
+      <a href="index.html">Website</a>
+      <a href="sql/erd.html">ERD</a>
+      <a href="http://127.0.0.1:5173">Vue Dashboard</a>
+    </nav>
+    <div class="who">
+      <span id="who"></span>
+      <a href="#" id="logout">Log out</a>
+    </div>
+  </header>
+  <main class="page">
+    <h1>Dashboard</h1>
+    <p class="note" id="role-note"></p>
+    <section class="stats" id="stats"></section>
+
+    <div class="toolbar">
+      <h2>Tracks</h2>
+    </div>
+    <form class="search" id="search-form">
+      <input type="search" id="q" placeholder="Search title, artist, genre" />
+      <button class="btn" type="submit">Search</button>
+    </form>
+
+    <form class="form" id="track-form" hidden>
+      <h3 id="form-title">Add track</h3>
+      <input type="hidden" id="track-id" />
+      <label>Title <input id="title" required /></label>
+      <label>Artist <input id="artist" required /></label>
+      <label>Album <input id="album" required /></label>
+      <label>Genre <input id="genre" /></label>
+      <button class="btn" type="submit">Save</button>
+      <button class="btn ghost" type="button" id="cancel-edit">Cancel</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Album</th>
+          <th>Genre</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </main>
+  <script src="js/auth.js"></script>
+  <script>
+    var user = currentUser();
+    if (!user) {
+      window.location.replace("login.html");
+    } else {
+      document.getElementById("who").textContent = user.name + " (" + user.role + ")";
+      document.getElementById("role-note").textContent = canManage(user)
+        ? "You can add, edit, and delete tracks."
+        : "Listener role: search and view only.";
+      if (canManage(user)) {
+        document.getElementById("track-form").hidden = false;
+      }
+    }
+
+    var seed = [
+      { id: 1, title: "Blinding Lights", artist: "The Weeknd", album: "After Hours", genre: "Synth-pop" },
+      { id: 2, title: "WILDFLOWER", artist: "Billie Eilish", album: "WILDFLOWER", genre: "Pop" },
+      { id: 3, title: "Salma", artist: "Jadal", album: "Malyeesh", genre: "Rock" },
+      { id: 4, title: "Garee2a Awy", artist: "TUL8TE", album: "A COLORS SHOW", genre: "Afrobeats" }
+    ];
+
+    function loadTracks() {
+      var raw = localStorage.getItem("spotify_tracks");
+      if (!raw) {
+        localStorage.setItem("spotify_tracks", JSON.stringify(seed));
+        return seed.slice();
+      }
+      return JSON.parse(raw);
+    }
+
+    function saveTracks(list) {
+      localStorage.setItem("spotify_tracks", JSON.stringify(list));
+    }
+
+    function render(list) {
+      var q = document.getElementById("q").value.trim().toLowerCase();
+      var rows = list.filter(function (item) {
+        var hay = (item.title + " " + item.artist + " " + item.album + " " + item.genre).toLowerCase();
+        return !q || hay.indexOf(q) !== -1;
+      });
+      document.getElementById("rows").innerHTML = rows.map(function (item) {
+        var actions = canManage(user)
+          ? '<td class="actions"><button class="btn ghost" data-edit="' + item.id + '">Edit</button>' +
+            '<button class="btn danger" data-del="' + item.id + '">Delete</button></td>'
+          : "<td></td>";
+        return "<tr><td>" + item.title + "</td><td>" + item.artist + "</td><td>" +
+          item.album + "</td><td>" + item.genre + "</td>" + actions + "</tr>";
+      }).join("");
+      document.getElementById("stats").innerHTML =
+        '<article class="card stat"><span>tracks</span><strong>' + list.length + "</strong></article>" +
+        '<article class="card stat"><span>role</span><strong>' + user.role + "</strong></article>";
+    }
+
+    var tracks = loadTracks();
+    render(tracks);
+
+    document.getElementById("search-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      render(tracks);
+    });
+
+    document.getElementById("logout").addEventListener("click", function (event) {
+      event.preventDefault();
+      logoutUser();
+      window.location.href = "login.html";
+    });
+
+    document.getElementById("cancel-edit").addEventListener("click", function () {
+      document.getElementById("track-id").value = "";
+      document.getElementById("form-title").textContent = "Add track";
+      document.getElementById("track-form").reset();
+    });
+
+    document.getElementById("track-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!canManage(user)) return;
+      var id = document.getElementById("track-id").value;
+      var row = {
+        id: id ? Number(id) : Date.now(),
+        title: document.getElementById("title").value.trim(),
+        artist: document.getElementById("artist").value.trim(),
+        album: document.getElementById("album").value.trim(),
+        genre: document.getElementById("genre").value.trim()
+      };
+      if (id) {
+        tracks = tracks.map(function (item) { return item.id === row.id ? row : item; });
+      } else {
+        tracks.unshift(row);
+      }
+      saveTracks(tracks);
+      this.reset();
+      document.getElementById("track-id").value = "";
+      document.getElementById("form-title").textContent = "Add track";
+      render(tracks);
+    });
+
+    document.getElementById("rows").addEventListener("click", function (event) {
+      var editId = event.target.getAttribute("data-edit");
+      var delId = event.target.getAttribute("data-del");
+      if (editId) {
+        var item = tracks.find(function (row) { return String(row.id) === editId; });
+        if (!item) return;
+        document.getElementById("track-id").value = item.id;
+        document.getElementById("title").value = item.title;
+        document.getElementById("artist").value = item.artist;
+        document.getElementById("album").value = item.album;
+        document.getElementById("genre").value = item.genre;
+        document.getElementById("form-title").textContent = "Edit track";
+      }
+      if (delId && confirm("Delete this track?")) {
+        tracks = tracks.filter(function (row) { return String(row.id) !== delId; });
+        saveTracks(tracks);
+        render(tracks);
+      }
+    });
+  </script>
+</body>
+</html>
